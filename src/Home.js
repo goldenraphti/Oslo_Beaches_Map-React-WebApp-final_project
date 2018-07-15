@@ -16,7 +16,8 @@ class Home extends Component {
                      {title: 'langøyene', id:104, location: {lat: 59.871664, lng: 10.721499}},
                      {title: 'paradisbukta', id:105, location: {lat: 59.901971, lng: 10.665654}},
                      {title: 'hovedøya', id:106, location: {lat: 59.895011, lng: 10.725042}}
-                    ]
+                    ],
+        gMap: {}
     }
 
     getGoogleMaps() {
@@ -69,11 +70,10 @@ class Home extends Component {
         
         this.generateMarkers(this.state.beachesList);
         this.showBeaches(map);
-
-
+        this.setState({gMap:map});
     }
 
-    generateMarkers(locationsArray, map) {
+    generateMarkers = (locationsArray, map) => {
         
         let arrayMarkersForState = [];
         
@@ -114,7 +114,7 @@ class Home extends Component {
     }
 
       // This function will loop through the markers array and display them all.
-    showBeaches(gMap) {
+    showBeaches = (gMap) => {
         const bounds = new google.maps.LatLngBounds();
         // Extend the boundaries of the map for each marker and display the marker
         this.state.markers.map( (marker) => {
@@ -125,13 +125,6 @@ class Home extends Component {
         });
         gMap.fitBounds(bounds);
       }
-
-//      // This function will loop through the Beaches and hide them all.
-//    hideBeaches() {
-//        for (var i = 0; i < markers.length; i++) {
-//          markers[i].setMap(null);
-//        }
-//      }
 
 //      // This function populates the infowindow when the marker is clicked. We'll only allow
 //      // one infowindow which will open at the marker that is clicked, and populate based
@@ -254,8 +247,14 @@ class Home extends Component {
         ]
     }
 
-    filterMarkers() {
-        console.log('filterMarkers function executing');
+    filterBeaches = (selectedBeach) => {
+        console.log('starting filterBeaches function','selectedBeach :', selectedBeach);
+        console.log('allMarkers', this.state.markers);
+        
+        this.state.markers.map( (marker) => {
+            marker.id == selectedBeach ? marker.setMap(this.state.gMap) : marker.setMap(null);
+        })
+        
     }
 
     render() {
@@ -276,7 +275,10 @@ class Home extends Component {
                     <div id="map"></div>
 
                     <aside>
-                        <BeachesList beachesList={this.state.beachesList} />
+                        <BeachesList
+                            beachesList={this.state.beachesList}
+                            filterBeaches={this.filterBeaches}
+                          />
                     </aside>
                 </div>
                 
