@@ -17,7 +17,8 @@ class Home extends Component {
                      {title: 'paradisbukta', id:105, location: {lat: 59.901971, lng: 10.665654}},
                      {title: 'hovedøya', id:106, location: {lat: 59.895011, lng: 10.725042}}
                     ],
-        gMap: {}
+        gMap: {},
+        largeInfoWindow: {} ,
     }
 
     getGoogleMaps() {
@@ -66,9 +67,7 @@ class Home extends Component {
             styles: this.style.mapStyle,
         });
         
-        const largeInfowindow = new google.maps.InfoWindow();
-        
-        this.generateMarkers(this.state.beachesList, this.populateInfoWindow, largeInfowindow);
+        this.generateMarkers(this.state.beachesList, this.populateInfoWindow);
         this.showBeaches(map);
         this.setState({gMap:map});
     }
@@ -93,12 +92,14 @@ class Home extends Component {
 
             // Push the marker to a new array of markers.
             arrayMarkersForState.push(marker);
-
-            const largeInfowindow = new google.maps.InfoWindow();
+            
+                    
+            const setlargeInfoWindow = new google.maps.InfoWindow();
+            this.setState({largeInfoWindow : setlargeInfoWindow });
             
           // Create an onclick event to open the large infowindow at each marker.
           marker.addListener('click', function() {
-            populateInfoWindow(this, largeInfowindow);
+            populateInfoWindow(this);
           });
 //            
 //          // Two event listeners - one for mouseover, one for mouseout,
@@ -131,25 +132,23 @@ class Home extends Component {
       // This function populates the infowindow when the marker is clicked. We'll only allow
       // one infowindow which will open at the marker that is clicked, and populate based
       // on that markers position.
-    populateInfoWindow = (marker, infowindow) => {
-            console.log('start populateInfoWindow',marker,  infowindow);
-            console.log('infowindow.marker',infowindow.marker);
+    populateInfoWindow = (marker) => {
+        
+        const infowindow = this.state.largeInfoWindow;
+        console.log(infowindow);
         
         // Check to make sure the infowindow is not already opened on this marker.
         if (infowindow.marker != marker) {
             infowindow.marker = marker;
             infowindow.setContent('<div>' + marker.title + '</div>');
             infowindow.open(this.state.gMap, marker);
-            console.log('infowindow.marker',infowindow.marker);
             // Make sure the marker property is cleared if the infowindow is closed.
             infowindow.addListener('closeclick',function(){
                 infowindow.marker = null;
             });
-            console.log('end populateInfoWindow',marker, infowindow);
-            console.log('infowindow.marker',infowindow.marker);
         } else {
-            console.log('problem', 'infowindow.marker != marker')
-            console.log('infowindow.marker',infowindow.marker);
+            infowindow.close();
+            infowindow.marker = null;
         }
     }
 
