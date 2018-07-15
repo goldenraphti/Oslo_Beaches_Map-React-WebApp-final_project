@@ -8,8 +8,15 @@ import BeachesList from './BeachesList'
 class Home extends Component {
     
     state= {
-        centerMap: {lat: 28.291564, lng: -16.62913},
-        beachesList:['sørenga', 'tjuvholmen', 'hvervenbukta', 'langøyene', 'paradisbukta'],
+        centerMap: {lat: 59.9028735, lng: 10.7248394},
+        markers: [],
+        beachesList:[{title: 'tjuvholmen', id:101, location: {lat: 59.906125, lng: 10.719755}},
+                     {title: 'sørenga', id:102, location: {lat: 59.900957, lng: 10.751031}},
+                     {title: 'hvervenbukta', id:103, location: {lat: 59.833907, lng: 10.77235}},
+                     {title: 'langøyene', id:104, location: {lat: 59.871664, lng: 10.721499}},
+                     {title: 'paradisbukta', id:105, location: {lat: 59.901971, lng: 10.665654}},
+                     {title: 'hovedøya', id:106, location: {lat: 59.895011, lng: 10.725042}}
+                    ]
     }
 
     getGoogleMaps() {
@@ -52,11 +59,199 @@ class Home extends Component {
 
     initMap() {
         // Constructor creates a new map - only center and zoom are required.
-        let map = new google.maps.Map(document.getElementById('map'), {
+        const map = new google.maps.Map(document.getElementById('map'), {
             center: this.state.centerMap,
-            zoom: 9,
-//            styles: styleMap,
+            zoom: 13,
+            styles: this.style.mapStyle,
         });
+        
+        const largeInfowindow = new google.maps.InfoWindow();
+        
+        this.generateMarkers(this.state.beachesList);
+        this.showBeaches(map);
+
+
+    }
+
+    generateMarkers(locationsArray, map) {
+        
+        let arrayMarkersForState = [];
+        
+        locationsArray.map( (location) => {
+
+            // Get the position from the location array.
+            const position = location.location;
+            const title = location.title;
+            // Create a marker per location, and put into markers array.
+            const marker = new google.maps.Marker({
+                position: position,
+                title: title,
+                animation: google.maps.Animation.DROP,
+                id: location.id
+            });
+
+
+            // Push the marker to a new array of markers.
+            arrayMarkersForState.push(marker);
+            
+//          // Create an onclick event to open the large infowindow at each marker.
+//          marker.addListener('click', function() {
+//            populateInfoWindow(this, largeInfowindow);
+//          });
+//            
+//          // Two event listeners - one for mouseover, one for mouseout,
+//          // to change the colors back and forth.
+//          marker.addListener('mouseover', function() {
+//            this.setIcon(highlightedIcon);
+//          });
+//          marker.addListener('mouseout', function() {
+//            this.setIcon(defaultIcon);
+//          });
+        })
+        
+        this.setState({markers: arrayMarkersForState});
+        
+    }
+
+      // This function will loop through the markers array and display them all.
+    showBeaches(gMap) {
+        const bounds = new google.maps.LatLngBounds();
+        // Extend the boundaries of the map for each marker and display the marker
+        this.state.markers.map( (marker) => {
+            
+          marker.setMap(gMap);
+          bounds.extend(marker.position);
+            
+        });
+        gMap.fitBounds(bounds);
+      }
+
+//      // This function will loop through the Beaches and hide them all.
+//    hideBeaches() {
+//        for (var i = 0; i < markers.length; i++) {
+//          markers[i].setMap(null);
+//        }
+//      }
+
+//      // This function populates the infowindow when the marker is clicked. We'll only allow
+//      // one infowindow which will open at the marker that is clicked, and populate based
+//      // on that markers position.
+//    populateInfoWindow(marker, infowindow) {
+//        // Check to make sure the infowindow is not already opened on this marker.
+//        if (infowindow.marker == marker) {
+//          // Clear the infowindow content to give the streetview time to load.
+//          infowindow.setContent('');
+//          infowindow.marker = marker;
+//          // Make sure the marker property is cleared if the infowindow is closed.
+//          infowindow.addListener('closeclick', function() {
+//            infowindow.marker = null;
+//          });
+//          var streetViewService = new google.maps.StreetViewService();
+//          var radius = 50;
+//          // In case the status is OK, which means the pano was found, compute the
+//          // position of the streetview image, then calculate the heading, then get a
+//          // panorama from that and set the options
+//          function getStreetView(data, status) {
+//            if (status == google.maps.StreetViewStatus.OK) {
+//              var nearStreetViewLocation = data.location.latLng;
+//              var heading = google.maps.geometry.spherical.computeHeading(
+//                nearStreetViewLocation, marker.position);
+//                infowindow.setContent('<div>' + marker.title + '</div><div id="pano"></div>');
+//                var panoramaOptions = {
+//                  position: nearStreetViewLocation,
+//                  pov: {
+//                    heading: heading,
+//                    pitch: 30
+//                  }
+//                };
+//              var panorama = new google.maps.StreetViewPanorama(
+//                document.getElementById('pano'), panoramaOptions);
+//            } else {
+//              infowindow.setContent('<div>' + marker.title + '</div>' +
+//                '<div>No Street View Found</div>');
+//            }
+//          }
+//          // Use streetview service to get the closest streetview image within
+//          // 50 meters of the markers position
+//          streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
+//          // Open the infowindow on the correct marker.
+//          infowindow.open(map, marker);
+//        }
+//      }
+
+    style = {
+        
+        mapStyle : [
+            {
+                "featureType": "landscape.natural",
+                "elementType": "geometry.fill",
+                "stylers": [
+                    {
+                        "visibility": "on"
+                    },
+                    {
+                        "color": "#e0efef"
+                    }
+                ]
+            },
+            {
+                "featureType": "poi",
+                "elementType": "geometry.fill",
+                "stylers": [
+                    {
+                        "visibility": "on"
+                    },
+                    {
+                        "hue": "#1900ff"
+                    },
+                    {
+                        "color": "#c0e8e8"
+                    }
+                ]
+            },
+            {
+                "featureType": "road",
+                "elementType": "geometry",
+                "stylers": [
+                    {
+                        "lightness": 100
+                    },
+                    {
+                        "visibility": "simplified"
+                    }
+                ]
+            },
+            {
+                "featureType": "road",
+                "elementType": "labels",
+                "stylers": [
+                    {
+                        "visibility": "off"
+                    }
+                ]
+            },
+            {
+                "featureType": "transit.line",
+                "elementType": "geometry",
+                "stylers": [
+                    {
+                        "visibility": "on"
+                    },
+                    {
+                        "lightness": 700
+                    }
+                ]
+            },
+            {
+                "featureType": "water",
+                "elementType": "all",
+                "stylers": [
+                    {
+                        "color": "#7dcdcd"
+                    }
+                ]
+            }
+        ]
     }
 
     filterMarkers() {
@@ -80,9 +275,9 @@ class Home extends Component {
                     
                     <div id="map"></div>
 
-                    <sidebar>
+                    <aside>
                         <BeachesList beachesList={this.state.beachesList} />
-                    </sidebar>
+                    </aside>
                 </div>
                 
             </div>

@@ -93,14 +93,27 @@ nav {
 
 #map {
     height: calc(100vh - 50px);
-    width: calc(100vw - 150px)
+    width: calc(100vw - 200px)
 }
 
-sidebar {
-    width: 150px;
+aside {
+    width: 200px;
     background: #ffee95;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    text-transform: capitalize;
+}
+
+aside > * {
+    margin: 15px 0;
+}
+
+aside > form > * {
+    margin: 15px 0;
+}
+
+li {
+    margin: 10px 0;
 }

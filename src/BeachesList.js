@@ -8,7 +8,7 @@ const BeachesList = (props) => {
     
     return (
 
-        <div id="beaches-list">
+        <form id="beaches-list">
                 <h2>Beach list</h2>
                 <select>
                     <option>Sørenga</option>
@@ -19,10 +19,10 @@ const BeachesList = (props) => {
                 </select>
                 <ul>
                     {beachesList.map( (beach) => (
-                        <li key={beach}>{beach}</li>
+                        <li key={beach.title}>{beach.title}</li>
                     ))}
                 </ul>
-        </div>
+        </form>
 
     )
 

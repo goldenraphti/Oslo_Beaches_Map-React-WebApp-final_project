@@ -8,7 +8,13 @@ class CreditsPage extends Component {
     render() {
         return (
 
-            <div id="credits">this is the credit page</div>
+            <div id="credits">this is the credit page
+                <ul>
+                    <li>SnizzyMaps</li>
+                    <li>React</li>
+                    <li>Google Maps API</li>
+                </ul>
+            </div>
 
         )
     }
