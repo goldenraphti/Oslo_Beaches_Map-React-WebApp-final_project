@@ -278,6 +278,8 @@ class Home extends Component {
                         <BeachesList
                             beachesList={this.state.beachesList}
                             filterBeaches={this.filterBeaches}
+                            showBeaches={this.showBeaches}
+                            gMap={this.state.gMap}
                           />
                     </aside>
                 </div>
