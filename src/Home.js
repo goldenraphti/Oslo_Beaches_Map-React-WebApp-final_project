@@ -146,9 +146,6 @@ class Home extends Component {
             infowindow.addListener('closeclick',function(){
                 infowindow.marker = null;
             });
-        } else {
-            infowindow.close();
-            infowindow.marker = null;
         }
     }
 
