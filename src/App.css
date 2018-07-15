@@ -96,6 +96,11 @@ nav {
     width: calc(100vw - 200px)
 }
 
+#map button {
+    min-width: 0;
+    min-height: 0;
+}
+
 aside {
     width: 200px;
     background: #ffee95;
