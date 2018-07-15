@@ -122,3 +122,8 @@ aside > form > * {
 li {
     margin: 10px 0;
 }
+
+#info-window {
+    width: 200px;
+    height: 200px;
+}

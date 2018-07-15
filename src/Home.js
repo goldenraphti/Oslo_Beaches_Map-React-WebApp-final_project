@@ -68,12 +68,12 @@ class Home extends Component {
         
         const largeInfowindow = new google.maps.InfoWindow();
         
-        this.generateMarkers(this.state.beachesList);
+        this.generateMarkers(this.state.beachesList, this.populateInfoWindow, largeInfowindow);
         this.showBeaches(map);
         this.setState({gMap:map});
     }
 
-    generateMarkers = (locationsArray, map) => {
+    generateMarkers = (locationsArray, populateInfoWindow, largeInfoWindow) => {
         
         let arrayMarkersForState = [];
         
@@ -93,11 +93,13 @@ class Home extends Component {
 
             // Push the marker to a new array of markers.
             arrayMarkersForState.push(marker);
+
+            const largeInfowindow = new google.maps.InfoWindow();
             
-//          // Create an onclick event to open the large infowindow at each marker.
-//          marker.addListener('click', function() {
-//            populateInfoWindow(this, largeInfowindow);
-//          });
+          // Create an onclick event to open the large infowindow at each marker.
+          marker.addListener('click', function() {
+            populateInfoWindow(this, largeInfowindow);
+          });
 //            
 //          // Two event listeners - one for mouseover, one for mouseout,
 //          // to change the colors back and forth.
@@ -126,51 +128,30 @@ class Home extends Component {
         gMap.fitBounds(bounds);
       }
 
-//      // This function populates the infowindow when the marker is clicked. We'll only allow
-//      // one infowindow which will open at the marker that is clicked, and populate based
-//      // on that markers position.
-//    populateInfoWindow(marker, infowindow) {
-//        // Check to make sure the infowindow is not already opened on this marker.
-//        if (infowindow.marker == marker) {
-//          // Clear the infowindow content to give the streetview time to load.
-//          infowindow.setContent('');
-//          infowindow.marker = marker;
-//          // Make sure the marker property is cleared if the infowindow is closed.
-//          infowindow.addListener('closeclick', function() {
-//            infowindow.marker = null;
-//          });
-//          var streetViewService = new google.maps.StreetViewService();
-//          var radius = 50;
-//          // In case the status is OK, which means the pano was found, compute the
-//          // position of the streetview image, then calculate the heading, then get a
-//          // panorama from that and set the options
-//          function getStreetView(data, status) {
-//            if (status == google.maps.StreetViewStatus.OK) {
-//              var nearStreetViewLocation = data.location.latLng;
-//              var heading = google.maps.geometry.spherical.computeHeading(
-//                nearStreetViewLocation, marker.position);
-//                infowindow.setContent('<div>' + marker.title + '</div><div id="pano"></div>');
-//                var panoramaOptions = {
-//                  position: nearStreetViewLocation,
-//                  pov: {
-//                    heading: heading,
-//                    pitch: 30
-//                  }
-//                };
-//              var panorama = new google.maps.StreetViewPanorama(
-//                document.getElementById('pano'), panoramaOptions);
-//            } else {
-//              infowindow.setContent('<div>' + marker.title + '</div>' +
-//                '<div>No Street View Found</div>');
-//            }
-//          }
-//          // Use streetview service to get the closest streetview image within
-//          // 50 meters of the markers position
-//          streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
-//          // Open the infowindow on the correct marker.
-//          infowindow.open(map, marker);
-//        }
-//      }
+      // This function populates the infowindow when the marker is clicked. We'll only allow
+      // one infowindow which will open at the marker that is clicked, and populate based
+      // on that markers position.
+    populateInfoWindow = (marker, infowindow) => {
+            console.log('start populateInfoWindow',marker,  infowindow);
+            console.log('infowindow.marker',infowindow.marker);
+        
+        // Check to make sure the infowindow is not already opened on this marker.
+        if (infowindow.marker != marker) {
+            infowindow.marker = marker;
+            infowindow.setContent('<div>' + marker.title + '</div>');
+            infowindow.open(this.state.gMap, marker);
+            console.log('infowindow.marker',infowindow.marker);
+            // Make sure the marker property is cleared if the infowindow is closed.
+            infowindow.addListener('closeclick',function(){
+                infowindow.marker = null;
+            });
+            console.log('end populateInfoWindow',marker, infowindow);
+            console.log('infowindow.marker',infowindow.marker);
+        } else {
+            console.log('problem', 'infowindow.marker != marker')
+            console.log('infowindow.marker',infowindow.marker);
+        }
+    }
 
     style = {
         
@@ -248,10 +229,9 @@ class Home extends Component {
     }
 
     filterBeaches = (selectedBeach) => {
-        console.log('starting filterBeaches function','selectedBeach :', selectedBeach);
-        console.log('allMarkers', this.state.markers);
         
         this.state.markers.map( (marker) => {
+            // keep the == and not === since depending of if click on select or in list it will return the id in string or number, so must be a flexible equality, no strict equaity
             marker.id == selectedBeach ? marker.setMap(this.state.gMap) : marker.setMap(null);
         })
         

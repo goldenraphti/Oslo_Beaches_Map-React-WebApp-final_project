@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
 import './App.css'
 
 class CreditsPage extends Component {
@@ -10,7 +9,7 @@ class CreditsPage extends Component {
 
             <div id="credits">this is the credit page
                 <ul>
-                    <li>SnizzyMaps</li>
+                    <li>SnazzyMaps</li>
                     <li>React</li>
                     <li>Google Maps API</li>
                 </ul>
