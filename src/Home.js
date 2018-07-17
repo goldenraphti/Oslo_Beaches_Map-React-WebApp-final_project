@@ -4,6 +4,8 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import './App.css'
 import BeachesList from './BeachesList'
+import InfoWindow from './InfoWindow'
+import ReactDOM from 'react-dom';
 
 class Home extends Component {
     
@@ -11,7 +13,7 @@ class Home extends Component {
         centerMap: {lat: 59.9028735, lng: 10.7248394},
         markers: [],
         beachesList:[{title: 'tjuvholmen', id:101, location: {lat: 59.906125, lng: 10.719755}},
-                     {title: 'sørenga', id:102, location: {lat: 59.900957, lng: 10.751031}},
+                     {title: 'sørenga', id:102, location: {lat: 59.900957, lng: 10.751031}, foursquareID: '53c0f4fe498e2e581dceec59'},
                      {title: 'hvervenbukta', id:103, location: {lat: 59.833907, lng: 10.77235}},
                      {title: 'langøyene', id:104, location: {lat: 59.871664, lng: 10.721499}},
                      {title: 'paradisbukta', id:105, location: {lat: 59.901971, lng: 10.665654}},
@@ -134,12 +136,19 @@ class Home extends Component {
       // on that markers position.
     populateInfoWindow = (marker) => {
         
+        //in the future want to externalize the fcontent of the infoWindow in a separate component
+        const InfoWindowComponent = <InfoWindow marker={marker} />;
+        
         const infowindow = this.state.largeInfoWindow;
-        console.log(infowindow);
+        
         
         // Check to make sure the infowindow is not already opened on this marker.
         if (infowindow.marker != marker) {
             infowindow.marker = marker;
+            
+            // starts fetching and filling content for inside infow window
+            this.fillContentInInfoWindow(marker);
+            
             infowindow.setContent('<div>' + marker.title + '</div>');
             infowindow.open(this.state.gMap, marker);
             // Make sure the marker property is cleared if the infowindow is closed.
@@ -149,6 +158,38 @@ class Home extends Component {
         }
     }
 
+    // fetch the content from API for corresponding beach, and return it to be used inside infoWindow
+    fillContentInInfoWindow = (marker) => {
+        
+        console.log(marker);
+        
+        const dateYYYYMMDD = this.getTodayDateYYYYMMSS();
+        const responsePrefix = (response) => response.response.photos.items[0].prefix;
+        const responseSuffix = (response) => response.response.photos.items[0].suffix;
+        const responseSizeHeight = (response) => response.response.photos.items[0].height;
+        const responseSizeWidth = (response) => response.response.photos.items[0].width;
+        
+        // will need to insert venue ID, date
+        fetch(`https://api.foursquare.com/v2/venues/${this.state.beachesList[1].foursquareID}/photos?&client_id=ILWSI2AZCVIV23EZ4ARYGUTDGD0KQGSFLMYAYUIXSBRUQCUM&client_secret=L1KGWTLJ3UIGVRWKA2HX2WATFNPBZFVM4RTKQMRRINLQCDHV&v=${dateYYYYMMDD}`)
+        .then(response => response.json() )
+        .then(response => console.log(responsePrefix(response) + responseSizeWidth(response) + 'x' + responseSizeHeight(response) + responseSuffix(response)) )
+        .catch(err => console.log(err))
+    }
+    
+    getTodayDateYYYYMMSS = () => {
+        
+        const todaysDate = new Date();
+
+        var yyyy = todaysDate.getFullYear().toString();
+        var mm = (todaysDate.getMonth()+1).toString();
+        var dd  = todaysDate.getDate().toString();
+
+        var mmChars = mm.split('');
+        var ddChars = dd.split('');
+
+        return yyyy + (mmChars[1]?mm:"0"+mmChars[0]) + (ddChars[1]?dd:"0"+ddChars[0]);
+    }
+    
     style = {
         
         mapStyle : [
