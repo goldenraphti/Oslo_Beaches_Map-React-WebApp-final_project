@@ -76,6 +76,14 @@ body {
     max-width: 100vw;
 }
 
+a,
+li,
+.link,
+select,
+button {
+    cursor: pointer;
+}
+
 #home-container {
     min-height: 100vh;
     display: grid;
@@ -87,6 +95,20 @@ nav {
     justify-content: center;
     align-items: center;
     background: #91eeff;
+}
+
+h3 {
+    color: var(--medium-grey);
+    font-size: 1.7em;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+    position: absolute;
+    right: 10px;
+}
+
+h3:hover {
+    color: var(--dark-grey);
 }
 
 #sidebar-hamburger {
@@ -101,7 +123,6 @@ nav {
 
 #map {
     height: calc(100vh - var(--navbar-height));
-/*    width: calc(100vw - var(--sidebar-width));*/
     width: 100%;
 }
 
@@ -122,8 +143,7 @@ aside {
 }
 
 .aside-hidden {
-    right: -200px;
-    overflow-x: hidden;
+    display: none;
 }
 
 aside > * {
@@ -141,3 +161,5 @@ li {
     width: 200px;
     height: 200px;
 }
+
+/* TODO: if desktop and tablet, enhance aside displayed by default */

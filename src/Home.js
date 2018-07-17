@@ -21,6 +21,8 @@ class Home extends Component {
                     ],
         gMap: {},
         largeInfoWindow: {} ,
+        sidebarDisplayClass: 'aside-hidden',
+        sidebarMenuText:'☰'
     }
 
     getGoogleMaps() {
@@ -68,12 +70,11 @@ class Home extends Component {
         const aside = document.getElementsByTagName('aside');
         
         // TODO: should I use 'click' or 'mousedown' ?
-        document.getElementById("sidebar-hamburger").addEventListener('click', (
+        document.getElementById("sidebar-hamburger").addEventListener('click', () => {
             // should toggle the class aside-hidden to hide or show the sidebar when clicking the hamburger button
-//        aside.toggleClass('aside-hidden');
-            console.log(aside)
-        ));
-
+            this.state.sidebarDisplayClass === '' ? this.setState({sidebarDisplayClass: 'aside-hidden'}) : this.setState({sidebarDisplayClass: ''});
+            this.state.sidebarDisplayClass === '' ? this.setState({sidebarMenuText: '▶'}) : this.setState({sidebarMenuText: '☰'});
+        });
     }
 
     initMap() {
@@ -327,14 +328,14 @@ class Home extends Component {
                 <nav>
                     <h1>Oslo Best Summer Beaches</h1>
                     
-                <button id="sidebar-hamburger">List beaches</button>
+                <h3 id="sidebar-hamburger" className="link menu">{this.state.sidebarMenuText}</h3>
                     
                 </nav>
                 <div id="container-map-sidebar">
                     
                     <div id="map"></div>
 
-                    <aside className="aside-hidden">
+                    <aside  className={this.state.sidebarDisplayClass}>
                         <BeachesList
                             beachesList={this.state.beachesList}
                             filterBeaches={this.filterBeaches}

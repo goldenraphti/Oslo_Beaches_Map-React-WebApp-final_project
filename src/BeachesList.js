@@ -22,7 +22,7 @@ const BeachesList = (props) => {
                         <li key={beach.id}  onClick={e => filterBeaches(beach.id)} >{beach.title}</li>
                     ))}
                 </ul>
-                <div id="clear-filters" onClick={e => props.showBeaches(props.gMap)} >Show them all</div>
+                <div id="clear-filters" className="link" onClick={e => props.showBeaches(props.gMap)} >Show them all</div>
         </form>
 
     )
