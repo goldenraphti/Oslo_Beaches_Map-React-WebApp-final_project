@@ -59,6 +59,21 @@ class Home extends Component {
         this.getGoogleMaps().then((google) => {
             this.initMap();
         });
+        
+        this.addEventListenersForThePage();
+    }
+
+    addEventListenersForThePage = () => {
+
+        const aside = document.getElementsByTagName('aside');
+        
+        // TODO: should I use 'click' or 'mousedown' ?
+        document.getElementById("sidebar-hamburger").addEventListener('click', (
+            // should toggle the class aside-hidden to hide or show the sidebar when clicking the hamburger button
+//        aside.toggleClass('aside-hidden');
+            console.log(aside)
+        ));
+
     }
 
     initMap() {
@@ -147,7 +162,10 @@ class Home extends Component {
             infowindow.marker = marker;
             
             // starts fetching and filling content for inside infow window
-            this.fillContentInInfoWindow(marker);
+            console.log(this.fillContentInInfoWindow(marker));
+            
+            // TODO: retrieves infos from the fillContentInInfoWindow to insert it inside the window, such as photo + name author + from forsquare and link
+            console.log()
             
             infowindow.setContent('<div>' + marker.title + '</div>');
             infowindow.open(this.state.gMap, marker);
@@ -160,20 +178,16 @@ class Home extends Component {
 
     // fetch the content from API for corresponding beach, and return it to be used inside infoWindow
     fillContentInInfoWindow = (marker) => {
-        
-        console.log(marker);
-        
-        const dateYYYYMMDD = this.getTodayDateYYYYMMSS();
-        const responsePrefix = (response) => response.response.photos.items[0].prefix;
-        const responseSuffix = (response) => response.response.photos.items[0].suffix;
-        const responseSizeHeight = (response) => response.response.photos.items[0].height;
-        const responseSizeWidth = (response) => response.response.photos.items[0].width;
-        
+                
         // will need to insert venue ID, date
-        fetch(`https://api.foursquare.com/v2/venues/${this.state.beachesList[1].foursquareID}/photos?&client_id=ILWSI2AZCVIV23EZ4ARYGUTDGD0KQGSFLMYAYUIXSBRUQCUM&client_secret=L1KGWTLJ3UIGVRWKA2HX2WATFNPBZFVM4RTKQMRRINLQCDHV&v=${dateYYYYMMDD}`)
+        fetch(`https://api.foursquare.com/v2/venues/${this.getVenueID(marker)}/photos?&client_id=ILWSI2AZCVIV23EZ4ARYGUTDGD0KQGSFLMYAYUIXSBRUQCUM&client_secret=L1KGWTLJ3UIGVRWKA2HX2WATFNPBZFVM4RTKQMRRINLQCDHV&v=${this.getTodayDateYYYYMMSS()}`)
         .then(response => response.json() )
-        .then(response => console.log(responsePrefix(response) + responseSizeWidth(response) + 'x' + responseSizeHeight(response) + responseSuffix(response)) )
+        .then(response => {
+            console.log(response);
+            console.log(this.foursquareSyntaxResponse(response));
+        })
         .catch(err => console.log(err))
+        
     }
     
     getTodayDateYYYYMMSS = () => {
@@ -188,6 +202,37 @@ class Home extends Component {
         var ddChars = dd.split('');
 
         return yyyy + (mmChars[1]?mm:"0"+mmChars[0]) + (ddChars[1]?dd:"0"+ddChars[0]);
+    }
+    
+    getVenueID = (marker) => {
+        
+        let clickedVenueID;
+                
+        this.state.beachesList.map( (beach) => {
+            // take the clicked marker, compare its id to the beaches of beachesList, and retrieve the corresponding Foursquare venueID
+            marker.title == beach.title ? clickedVenueID = beach.foursquareID : null;
+        })
+        return clickedVenueID;
+    }
+    
+    foursquareSyntaxResponse = (response) => {
+        
+        let foursquareInfos = {
+            photo:'',
+            author:''
+        };
+        
+        const firstPhoto = response.response.photos.items[0];
+        const responsePrefix = (response) => firstPhoto.prefix;
+        const responseSuffix = (response) => firstPhoto.suffix;
+        const responseSizeHeight = (response) => firstPhoto.height;
+        const responseSizeWidth = (response) => firstPhoto.width;
+        
+        foursquareInfos.photo = responsePrefix(response) + responseSizeWidth(response) + 'x' + responseSizeHeight(response) + responseSuffix(response);
+        
+        foursquareInfos.author = firstPhoto.user.firstName + ' ' + firstPhoto.user.lastName;
+        
+        return foursquareInfos;
     }
     
     style = {
@@ -270,6 +315,7 @@ class Home extends Component {
         this.state.markers.map( (marker) => {
             // keep the == and not === since depending of if click on select or in list it will return the id in string or number, so must be a flexible equality, no strict equaity
             marker.id == selectedBeach ? marker.setMap(this.state.gMap) : marker.setMap(null);
+            
         })
         
     }
@@ -281,23 +327,23 @@ class Home extends Component {
                 <nav>
                     <h1>Oslo Best Summer Beaches</h1>
                     
-{ /* this is just a test, but must be re-placed inside the side bar, at its bottom, besire a link for Rferrand.com */ }
-                    <div className="open-search">
-                        <Link to="/credits">Credits</Link>
-                    </div>
+                <button id="sidebar-hamburger">List beaches</button>
                     
                 </nav>
                 <div id="container-map-sidebar">
                     
                     <div id="map"></div>
 
-                    <aside>
+                    <aside className="aside-hidden">
                         <BeachesList
                             beachesList={this.state.beachesList}
                             filterBeaches={this.filterBeaches}
                             showBeaches={this.showBeaches}
                             gMap={this.state.gMap}
                           />
+                    <div className="open-search">
+                        <Link to="/credits">Credits</Link>
+                    </div>
                     </aside>
                 </div>
                 

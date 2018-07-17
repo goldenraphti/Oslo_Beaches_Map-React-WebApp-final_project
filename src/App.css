@@ -63,6 +63,9 @@ ul {
     --light-grey-bg:rgba(234, 234, 234, 0.7);
     --medium-grey: #585858;
     --dark-grey: #292929;
+    
+    --navbar-height: 50px;
+    --sidebar-width: 200px;
 }
 
 body {
@@ -79,11 +82,16 @@ body {
 }
 
 nav {
-    height: 50px;
+    height: var(--navbar-height);
     display: flex;
     justify-content: center;
     align-items: center;
     background: #91eeff;
+}
+
+#sidebar-hamburger {
+    width: 50px;
+    height: 35px;
 }
 
 #container-map-sidebar {
@@ -92,8 +100,9 @@ nav {
 }
 
 #map {
-    height: calc(100vh - 50px);
-    width: calc(100vw - 200px)
+    height: calc(100vh - var(--navbar-height));
+/*    width: calc(100vw - var(--sidebar-width));*/
+    width: 100%;
 }
 
 #map button {
@@ -102,17 +111,22 @@ nav {
 }
 
 aside {
-    width: 200px;
+    width: var(--sidebar-width);
     background: #ffee95;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     text-transform: capitalize;
+    padding: 30px 0;
+}
+
+.aside-hidden {
+    right: -200px;
+    overflow-x: hidden;
 }
 
 aside > * {
-    margin: 15px 0;
 }
 
 aside > form > * {
