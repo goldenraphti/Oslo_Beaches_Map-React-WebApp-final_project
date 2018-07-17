@@ -162,4 +162,15 @@ li {
     height: 200px;
 }
 
+.info-window {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+img.image-info-window {
+    width: 150px;
+}
+
 /* TODO: if desktop and tablet, enhance aside displayed by default */

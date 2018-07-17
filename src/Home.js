@@ -22,7 +22,8 @@ class Home extends Component {
         gMap: {},
         largeInfoWindow: {} ,
         sidebarDisplayClass: 'aside-hidden',
-        sidebarMenuText:'☰'
+        sidebarMenuText:'☰',
+        markerToDisplay:{}
     }
 
     getGoogleMaps() {
@@ -163,22 +164,15 @@ class Home extends Component {
             infowindow.marker = marker;
             
             // starts fetching and filling content for inside infow window
-            console.log(this.fillContentInInfoWindow(marker));
+            const contentFromFoursquare = this.fetchContentFromFoursquare(marker);
             
-            // TODO: retrieves infos from the fillContentInInfoWindow to insert it inside the window, such as photo + name author + from forsquare and link
-            console.log()
-            
-            infowindow.setContent('<div>' + marker.title + '</div>');
-            infowindow.open(this.state.gMap, marker);
-            // Make sure the marker property is cleared if the infowindow is closed.
-            infowindow.addListener('closeclick',function(){
-                infowindow.marker = null;
-            });
+            this.setState({markerToDisplay: marker});
+
         }
     }
 
     // fetch the content from API for corresponding beach, and return it to be used inside infoWindow
-    fillContentInInfoWindow = (marker) => {
+    fetchContentFromFoursquare = (marker) => {
                 
         // will need to insert venue ID, date
         fetch(`https://api.foursquare.com/v2/venues/${this.getVenueID(marker)}/photos?&client_id=ILWSI2AZCVIV23EZ4ARYGUTDGD0KQGSFLMYAYUIXSBRUQCUM&client_secret=L1KGWTLJ3UIGVRWKA2HX2WATFNPBZFVM4RTKQMRRINLQCDHV&v=${this.getTodayDateYYYYMMSS()}`)
@@ -186,8 +180,12 @@ class Home extends Component {
         .then(response => {
             console.log(response);
             console.log(this.foursquareSyntaxResponse(response));
+            this.fillInfoWindow(this.foursquareSyntaxResponse(response));
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+            console.log(err);
+            this.fillInfowWindowFetchFailure();
+        })
         
     }
     
@@ -235,6 +233,30 @@ class Home extends Component {
         
         return foursquareInfos;
     }
+    
+    fillInfoWindow = (contentFromFoursquare) => {
+                    
+            const marker = this.state.markerToDisplay;
+            // retrieves infos from the fetchContentFromFoursquare to insert it inside the window, such as photo + name author + from forsquare and link
+            const title = '<h4>' + marker.title + '</h4>';
+            const photoContent = `<img class="image-info-window" src=${contentFromFoursquare.photo} alt=$photo from {marker.title}'beach, from Foursquare, taken by ${contentFromFoursquare.author}`;
+            const author = `<p>by ${contentFromFoursquare.author}</p>`;
+            
+            const contentToAdd = photoContent + author;
+        
+            const infowindow = this.state.largeInfoWindow;
+            
+            infowindow.setContent('<div class="info-window">' + title + contentToAdd  + '</div>');
+            infowindow.open(this.state.gMap, marker);
+            // Make sure the marker property is cleared if the infowindow is closed.
+            infowindow.addListener('closeclick',function(){
+                infowindow.marker = null;
+            });
+    }
+    
+    fillInfoWindowFetchFailure = () => {
+        console.log('mieeerda')
+    } 
     
     style = {
         
