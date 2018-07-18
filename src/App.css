@@ -111,7 +111,7 @@ h1 {
     color: #fff;
 }
 
-h3 {
+h2 {
     color: #fff;
     font-size: 1.7em;
     font-weight: bold;
@@ -121,7 +121,7 @@ h3 {
     right: 10px;
 }
 
-h3:hover {
+h2:hover {
     color: var(--light-grey);
 }
 

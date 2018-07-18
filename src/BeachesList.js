@@ -10,7 +10,7 @@ const BeachesList = (props) => {
     return (
 
         <form id="beaches-list">
-                <h2>Beach list</h2>
+                <h3>Beach list</h3>
                 <select onChange={e => filterBeaches(e.target.value)}  aria-label="Filter the beach selecting one in this dropdown menu" id="filter-beach-dropdown" name="filter-beach-dropdown" value="select-beach">
                    <option value="select-beach" disabled>Select a beach...</option>
                    {beachesList.map( (beach) => (
