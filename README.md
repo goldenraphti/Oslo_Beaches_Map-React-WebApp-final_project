@@ -12,10 +12,11 @@ frontend-nanodegree-arcade-game
 
 Oslo Best Summer Beaches
 
-The goal of this app is to track your book reading. You have 2 screens.  
-The main one ('/') is the screen listing your saved books. You can re-arrange them by changing their category (Currently Reading, Read, or Want to read). You can also "delete" them from your collection by modifying their category to 'none'.  
-The second screen, that you access clicking on the button bottom right of the home screen, is the Search Page from which you can add books to your collection. Type some keywords or title, or even authors in the search fields. The books corresponding to your query will appear. You can add them to your collection by changing their category and adding them to the appropriate one. If they are already present in your collection then their current category will be selected.  
-At this point of the development only certain keywords will provide an answer. If your query does not match anything, a list of search terms will be displayed on your screen. 
+The goal of this web-app is to present the best summer beaches of Oslo.  
+You can display or hide the beaches list by clicking the hamburger menu in the top right corner.  
+You can select each beach individually, clicking on their name in the list. If you click a beach name, only its marker will remain displayed.  
+You can re-display all beaches markers by clicking on the "show all beaches" link in the sidebar.  
+Credits page is linked at the bottom of the sidebar.
 
 ## Loading the app
 
@@ -24,16 +25,19 @@ This app can be loaded by starting the server
 + type 'npm install' and then 'npm start'
 + go to 'localhost:3000' in your browser
 
+You will need an internet connection, at least at first, to be able to get the google maps tiles and foursquare photos
+
 ## Technical Instructions for Developers
 
-The matser branch is production ready, but the features are still kept very simple.
+The master branch is production ready, but the features are still kept very simple.
 Next features to be added include:
-+ New filters such as topic category (e.g. 'Education', or 'Business & Economics'), maturity rating, ...
-+ Some more infos could be displayed, for example, with a modal window opening when you click a "detail" button on a corner of the book cover, or below it. This modal could display informations such as page count, a description, a bigger thumbnail, language, the date of publishing, publisher, etc.
-+ The theme, the style, could benefit a personalization
++ More beaches
++ Participative way to suggest new beaches
++ More infos about the beaches (Bysykkel cuty bikes, weather forecast, water quality, presence of lifeguards or not, level of danger of the water, etc)
 
 
 ## Credits
 
-This game was designed by Udacity, and coded by Raphaël Ferrand on a starter base, for the Google Scholarship - Front End Web Development Nanodegree of Udacity.  
-Google fonts for the fonts and Subtle patterns for some texture.
+This web-app was built for Udacity, and coded by Raphaël Ferrand from scratch, for the Google Scholarship - Front End Web Development Nanodegree of Udacity.  
+Thanks to Google Maps API, Foursquare API, Foursquare users for their photos, and Snazzy-maps for their google maps styles.
+To see all credits check out the credits page in the web-app.
