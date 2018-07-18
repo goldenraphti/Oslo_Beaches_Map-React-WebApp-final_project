@@ -241,12 +241,12 @@ class Home extends Component {
             const title = '<h4>' + marker.title + '</h4>';
             const photoContent = `<img class="image-info-window" src=${contentFromFoursquare.photo} alt=$photo from {marker.title}'beach, from Foursquare, taken by ${contentFromFoursquare.author}`;
             const author = `<p>by ${contentFromFoursquare.author}</p>`;
-            
-            const contentToAdd = photoContent + author;
+            const link = '<a href="foursquare.com>from Foursquare</a>';
+            const contentToAdd = title + photoContent + author + link;
         
             const infowindow = this.state.largeInfoWindow;
             
-            infowindow.setContent('<div class="info-window">' + title + contentToAdd  + '</div>');
+            infowindow.setContent('<div class="info-window">' + contentToAdd  + '</div>');
             infowindow.open(this.state.gMap, marker);
             // Make sure the marker property is cleared if the infowindow is closed.
             infowindow.addListener('closeclick',function(){
@@ -254,8 +254,23 @@ class Home extends Component {
             });
     }
     
-    fillInfoWindowFetchFailure = () => {
-        console.log('mieeerda')
+    fillInfowWindowFetchFailure = () => {
+        
+                    
+            const marker = this.state.markerToDisplay;
+            // retrieves infos from the fetchContentFromFoursquare to insert it inside the window, such as photo + name author + from forsquare and link
+            const title = '<h4>' + marker.title + '</h4>';
+            const text = `<p class="failure-info-text">For some technical issues, the content could not be loaded from ${link}, sorry for the unconvenience</p>`;
+            const link = '<a href="foursquare.com>from Foursquare</a>';
+        
+            const infowindow = this.state.largeInfoWindow;
+            
+            infowindow.setContent('<div class="info-window">' + text  + '</div>');
+            infowindow.open(this.state.gMap, marker);
+            // Make sure the marker property is cleared if the infowindow is closed.
+            infowindow.addListener('closeclick',function(){
+                infowindow.marker = null;
+            });
     } 
     
     style = {
