@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import './App.css'
 
 class CreditsPage extends Component {
@@ -17,6 +18,7 @@ class CreditsPage extends Component {
                     <li>Maps using <a href="https://cloud.google.com/maps-platform/">Google Maps API</a></li>
                     <li><a href="https://cloud.google.com/maps-platform/">Photos from <a href="https://foursquare.com">Foursquare</a> and its users</a></li>
                 </ul>
+                <Link to="/">Bring me back to the map and the beaches !</Link>
             </div>
 
         )

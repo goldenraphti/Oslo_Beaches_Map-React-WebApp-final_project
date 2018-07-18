@@ -239,9 +239,9 @@ class Home extends Component {
             const marker = this.state.markerToDisplay;
             // retrieves infos from the fetchContentFromFoursquare to insert it inside the window, such as photo + name author + from forsquare and link
             const title = '<h4>' + marker.title + '</h4>';
-            const photoContent = `<img class="image-info-window" src=${contentFromFoursquare.photo} alt=$photo from {marker.title}'beach, from Foursquare, taken by ${contentFromFoursquare.author}`;
+            const photoContent = `<img class="image-info-window" src=${contentFromFoursquare.photo} alt=photo from ${marker.title}'beach, from Foursquare, taken by ${contentFromFoursquare.author}`;
             const author = `<p>by ${contentFromFoursquare.author}</p>`;
-            const link = '<a href="foursquare.com>from Foursquare</a>';
+            const link = '<a href="https://foursquare.com">from Foursquare</a>';
             const contentToAdd = title + photoContent + author + link;
         
             const infowindow = this.state.largeInfoWindow;

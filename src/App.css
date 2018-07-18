@@ -171,11 +171,6 @@ li {
     margin: 10px 0;
 }
 
-#info-window {
-    width: 200px;
-    height: 200px;
-}
-
 .info-window {
     display: flex;
     flex-direction: column;
@@ -186,7 +181,11 @@ li {
 }
 
 img.image-info-window {
-    width: 150px;
+    width: 200px;
+}
+
+.info-window a {
+    color: #000;
 }
 
 .failure-info-text {
