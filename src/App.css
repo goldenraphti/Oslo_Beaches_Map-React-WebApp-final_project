@@ -109,6 +109,8 @@ nav {
 
 h1 {
     color: #fff;
+    max-width: 70vw;
+    text-align: center;
 }
 
 h2 {
@@ -171,6 +173,22 @@ li {
     margin: 10px 0;
 }
 
+#clear-filters {
+    color: var(--palette-1-3);
+}
+
+#clear-filters:hover {
+    color: red;
+}
+
+aside a {
+    color: var(--palette-1-3);
+}
+
+aside a:hover {
+    color: var(--palette-1-4);
+}
+
 .info-window {
     display: flex;
     flex-direction: column;
@@ -226,4 +244,20 @@ img.image-info-window {
 
 #credits a:hover {
     color: var(--palette-2-3);
+}
+
+
+@media screen and (max-width:500px){
+
+    h1 {
+        font-size: 1em;
+    }
+    aside {
+        width: 70vw;
+    }
+    aside > * {
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+
 }
