@@ -4,7 +4,6 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import './App.css'
 import BeachesList from './BeachesList'
-import InfoWindow from './InfoWindow'
 import ReactDOM from 'react-dom';
 
 class Home extends Component {
@@ -152,9 +151,6 @@ class Home extends Component {
       // one infowindow which will open at the marker that is clicked, and populate based
       // on that markers position.
     populateInfoWindow = (marker) => {
-        
-        //in the future want to externalize the fcontent of the infoWindow in a separate component
-        const InfoWindowComponent = <InfoWindow marker={marker} />;
         
         const infowindow = this.state.largeInfoWindow;
         
