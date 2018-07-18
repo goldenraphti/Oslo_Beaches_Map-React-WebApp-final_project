@@ -22,7 +22,8 @@ class Home extends Component {
         largeInfoWindow: {} ,
         sidebarDisplayClass: 'aside-hidden',
         sidebarMenuText:'☰',
-        markerToDisplay:{}
+        markerToDisplay:{},
+        dropdownText:''
     }
 
     getGoogleMaps() {
@@ -63,6 +64,7 @@ class Home extends Component {
         });
         
         this.addEventListenersForThePage();
+        this.updateDropdownMenu();
     }
 
     addEventListenersForThePage = () => {
@@ -145,6 +147,7 @@ class Home extends Component {
             
         });
         gMap.fitBounds(bounds);
+        this.updateDropdownMenu();
       }
 
       // This function populates the infowindow when the marker is clicked. We'll only allow
@@ -350,9 +353,19 @@ class Home extends Component {
             // keep the == and not === since depending of if click on select or in list it will return the id in string or number, so must be a flexible equality, no strict equaity
             marker.id == selectedBeach ? marker.setMap(this.state.gMap) : marker.setMap(null);
             marker.id == selectedBeach ? marker.animation = google.maps.Animation.BOUNCE : null;
-            
-            
         })
+        
+        this.updateDropdownMenu();
+        
+    }
+    
+    updateDropdownMenu = () => {
+        
+        let selectedBeach = this.state.markers.filter(marker => marker.map !== null);
+        selectedBeach.length === 1 ? this.setState({dropdownText:selectedBeach[0].title}) : this.setState({dropdownText:'Select a beach...'});
+        
+//        this.state.markerToDisplay.title !== undefined ? this.setState({dropdownText:this.state.markerToDisplay.title}) : this.setState({dropdownText:'Select a beach...'});
+
         
     }
 
@@ -376,6 +389,7 @@ class Home extends Component {
                             filterBeaches={this.filterBeaches}
                             showBeaches={this.showBeaches}
                             gMap={this.state.gMap}
+                            dropdownText={this.state.dropdownText}
                           />
                     <div className="open-search">
                         <Link to="/credits">Credits</Link>
