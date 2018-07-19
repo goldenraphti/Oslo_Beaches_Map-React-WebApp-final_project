@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import './App.css'
 import BeachesList from './BeachesList'
 import ReactDOM from 'react-dom'
+import GmapStyle from './GmapStyle'
 
 //const gm_authFailure = err => console.log('yaaay');
 
@@ -86,7 +87,7 @@ class Home extends Component {
         const map = new google.maps.Map(document.getElementById('map'), {
             center: this.state.centerMap,
             zoom: 13,
-            styles: this.style.mapStyle,
+            styles: < GmapStyle />,
         });
         
         this.generateMarkers(this.state.beachesList, this.populateInfoWindow);
@@ -270,81 +271,6 @@ class Home extends Component {
                 infowindow.marker = null;
             });
     } 
-    
-    style = {
-        
-        mapStyle : [
-            {
-                "featureType": "landscape.natural",
-                "elementType": "geometry.fill",
-                "stylers": [
-                    {
-                        "visibility": "on"
-                    },
-                    {
-                        "color": "#e0efef"
-                    }
-                ]
-            },
-            {
-                "featureType": "poi",
-                "elementType": "geometry.fill",
-                "stylers": [
-                    {
-                        "visibility": "on"
-                    },
-                    {
-                        "hue": "#1900ff"
-                    },
-                    {
-                        "color": "#c0e8e8"
-                    }
-                ]
-            },
-            {
-                "featureType": "road",
-                "elementType": "geometry",
-                "stylers": [
-                    {
-                        "lightness": 100
-                    },
-                    {
-                        "visibility": "simplified"
-                    }
-                ]
-            },
-            {
-                "featureType": "road",
-                "elementType": "labels",
-                "stylers": [
-                    {
-                        "visibility": "off"
-                    }
-                ]
-            },
-            {
-                "featureType": "transit.line",
-                "elementType": "geometry",
-                "stylers": [
-                    {
-                        "visibility": "on"
-                    },
-                    {
-                        "lightness": 700
-                    }
-                ]
-            },
-            {
-                "featureType": "water",
-                "elementType": "all",
-                "stylers": [
-                    {
-                        "color": "#7dcdcd"
-                    }
-                ]
-            }
-        ]
-    }
 
     filterBeaches = (selectedBeach) => {
         
