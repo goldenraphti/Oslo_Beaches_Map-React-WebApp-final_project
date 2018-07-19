@@ -10,8 +10,8 @@ const BeachesList = (props) => {
     return (
 
         <form id="beaches-list">
-                <h3>Beach list</h3>
-                <select onChange={e => filterBeaches(e.target.value)}  aria-label="Filter the beach selecting one in this dropdown menu" id="filter-beach-dropdown" name="filter-beach-dropdown" value="select-beach">
+                <h2>Beach list</h2>
+                <select onChange={e => filterBeaches(e.target.value)}  aria-label="Filter the beach selecting one in this dropdown menu" tabindex="-1" id="filter-beach-dropdown" name="filter-beach-dropdown" value="select-beach">
                    <option value="select-beach" disabled>{props.dropdownText}</option>
                    {beachesList.map( (beach) => (
                         <option value={beach.id} key={beach.id}>{beach.title}</option>
@@ -19,10 +19,10 @@ const BeachesList = (props) => {
                 </select>
                 <ul>
                     {beachesList.map( (beach) => (
-                        <li key={beach.id}  onClick={e => filterBeaches(beach.id)} >{beach.title}</li>
+                        <li key={beach.id}  onClick={e => filterBeaches(beach.id)} ><a href="#">{beach.title}</a>                                                                                                                                                                                                            </li>
                     ))}
                 </ul>
-                <div id="clear-filters" className="link" onClick={e => props.showBeaches(props.gMap)} >Show them all</div>
+            <div id="clear-filters" className="link" role="button" onClick={e => props.showBeaches(props.gMap)} ><a href="#">Show them all</a></div>
         </form>
 
     )

@@ -16,7 +16,7 @@ class CreditsPage extends Component {
                     <li>Google map color style from <a href="https://snazzymaps.com/">SnazzyMaps</a></li>
                     <li>Web app composed using <a href="https://reactjs.org/">React</a></li>
                     <li>Maps using <a href="https://cloud.google.com/maps-platform/">Google Maps API</a></li>
-                    <li><a href="https://cloud.google.com/maps-platform/">Photos from <a href="https://foursquare.com">Foursquare</a> and its users</a></li>
+                    <li>Photos from <a href="https://foursquare.com">Foursquare</a> and its users</li>
                 </ul>
                 <Link to="/">Bring me back to the map and the beaches !</Link>
             </div>

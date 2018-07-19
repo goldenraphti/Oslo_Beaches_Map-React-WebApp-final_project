@@ -4,7 +4,9 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import './App.css'
 import BeachesList from './BeachesList'
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom'
+
+//const gm_authFailure = err => console.log('yaaay');
 
 class Home extends Component {
     
@@ -364,9 +366,6 @@ class Home extends Component {
         let selectedBeach = this.state.markers.filter(marker => marker.map !== null);
         selectedBeach.length === 1 ? this.setState({dropdownText:selectedBeach[0].title}) : this.setState({dropdownText:'Select a beach...'});
         
-//        this.state.markerToDisplay.title !== undefined ? this.setState({dropdownText:this.state.markerToDisplay.title}) : this.setState({dropdownText:'Select a beach...'});
-
-        
     }
 
     render() {
@@ -376,7 +375,7 @@ class Home extends Component {
                 <nav>
                     <h1>Oslo Best Summer Beaches</h1>
                     
-                <h2 id="sidebar-hamburger" className="link menu">{this.state.sidebarMenuText}</h2>
+                <button id="sidebar-hamburger" aria-label="Opens up or hide sidebar to filter beaches" role="button" tabindex="0" className="link menu">{this.state.sidebarMenuText}</button>
                     
                 </nav>
                 <div id="container-map-sidebar">
