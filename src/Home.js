@@ -123,15 +123,6 @@ class Home extends Component {
           marker.addListener('click', function() {
             populateInfoWindow(this);
           });
-//            
-//          // Two event listeners - one for mouseover, one for mouseout,
-//          // to change the colors back and forth.
-//          marker.addListener('mouseover', function() {
-//            this.setIcon(highlightedIcon);
-//          });
-//          marker.addListener('mouseout', function() {
-//            this.setIcon(defaultIcon);
-//          });
         })
         
         this.setState({markers: arrayMarkersForState});
@@ -150,7 +141,7 @@ class Home extends Component {
         });
         gMap.fitBounds(bounds);
         this.updateDropdownMenu();
-      }
+    }
 
       // This function populates the infowindow when the marker is clicked. We'll only allow
       // one infowindow which will open at the marker that is clicked, and populate based
@@ -171,6 +162,14 @@ class Home extends Component {
 
         }
     }
+    
+    acessibilityLaunchPopulateInfoWindow = (beach) => {
+        
+        this.state.markers.map( marker =>{
+            marker.id === beach.beach.id ? this.populateInfoWindow(marker) : null ;
+        })
+        
+    }
 
     // fetch the content from API for corresponding beach, and return it to be used inside infoWindow
     fetchContentFromFoursquare = (marker) => {
@@ -179,8 +178,6 @@ class Home extends Component {
         fetch(`https://api.foursquare.com/v2/venues/${this.getVenueID(marker)}/photos?&client_id=ILWSI2AZCVIV23EZ4ARYGUTDGD0KQGSFLMYAYUIXSBRUQCUM&client_secret=L1KGWTLJ3UIGVRWKA2HX2WATFNPBZFVM4RTKQMRRINLQCDHV&v=${this.getTodayDateYYYYMMSS()}`)
         .then(response => response.json() )
         .then(response => {
-            console.log(response);
-            console.log(this.foursquareSyntaxResponse(response));
             this.fillInfoWindow(this.foursquareSyntaxResponse(response));
         })
         .catch(err => {
@@ -375,7 +372,7 @@ class Home extends Component {
                 <nav>
                     <h1>Oslo Best Summer Beaches</h1>
                     
-                <button id="sidebar-hamburger" aria-label="Opens up or hide sidebar to filter beaches" role="button" tabindex="0" className="link menu">{this.state.sidebarMenuText}</button>
+                <button id="sidebar-hamburger" aria-label="Opens up or hide sidebar to filter beaches" role="button" tabIndex="0" className="link menu">{this.state.sidebarMenuText}</button>
                     
                 </nav>
                 <div id="container-map-sidebar">
@@ -389,6 +386,7 @@ class Home extends Component {
                             showBeaches={this.showBeaches}
                             gMap={this.state.gMap}
                             dropdownText={this.state.dropdownText}
+                            acessibilityLaunchPopulateInfoWindow={this.acessibilityLaunchPopulateInfoWindow}
                           />
                     <div className="open-search">
                         <Link to="/credits">Credits</Link>
