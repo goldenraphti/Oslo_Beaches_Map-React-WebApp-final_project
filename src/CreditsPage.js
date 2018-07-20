@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import './App.css'
 
+//  <li>Google Maps failure photo by <a href="https://unsplash.com/@bencliff">Ben Cliff</a> on <a href="https://unsplash.com/">Unsplash</a></li>
+
 const CreditsPage = (props) => {
 
     return (
@@ -15,6 +17,7 @@ const CreditsPage = (props) => {
                 <li>Web app composed using <a href="https://reactjs.org/">React</a></li>
                 <li>Maps using <a href="https://cloud.google.com/maps-platform/">Google Maps API</a></li>
                 <li>Photos from <a href="https://foursquare.com">Foursquare</a> and its users</li>
+
             </ul>
             <Link to="/">Bring me back to the map and the beaches !</Link>
         </div>

@@ -26,18 +26,19 @@ class Home extends Component {
         sidebarDisplayClass: 'aside-hidden',
         sidebarMenuText:'☰',
         markerToDisplay:{},
-        dropdownText:''
+        dropdownText:'',
     }
 
     getGoogleMaps() {
         // If we haven't already defined the promise, define it
         if (!this.googleMapsPromise) {
             this.googleMapsPromise = new Promise((resolve) => {
+                
+                
                 // Add a global handler for when the API finishes loading
                 window.resolveGoogleMapsPromise = () => {
                     // Resolve the promise
                     resolve(google);
-
                     // Tidy up
                     delete window.resolveGoogleMapsPromise;
                 };
@@ -50,7 +51,7 @@ class Home extends Component {
                 document.body.appendChild(script);
             });
         }
-
+        
         // Return a promise for the Google Maps API
         return this.googleMapsPromise;
     }
@@ -62,9 +63,10 @@ class Home extends Component {
 
     componentDidMount() {
         // Once the Google Maps API has finished loading, initialize the map
-        this.getGoogleMaps().then((google) => {
-            this.initMap();
-        });
+        this.getGoogleMaps()
+            .then((google) => {
+                this.initMap();
+            })
         
         this.addEventListenersForThePage();
         this.updateDropdownMenu();
@@ -290,6 +292,7 @@ class Home extends Component {
         selectedBeach.length === 1 ? this.setState({dropdownText:selectedBeach[0].title}) : this.setState({dropdownText:'Select a beach...'});
         
     }
+    
 
     render() {
         return (
@@ -303,7 +306,12 @@ class Home extends Component {
                 </nav>
                 <div id="container-map-sidebar">
                     
-                    <div id="map"></div>
+                    <div id="gmap-fail-alternative" className="hidden">
+                        <p>Sorry for the unconvenience. <br/>We could not import the map from Google Maps API, for some unfortunate reasons. If the problem persists, please reach us and we'll ensure to fix it up as soon as possible.</p>
+                    </div>
+                   
+                    <div id="map">
+                    </div>
 
                     <aside  className={this.state.sidebarDisplayClass}>
                         <BeachesList
