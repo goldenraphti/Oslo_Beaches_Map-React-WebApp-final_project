@@ -27,6 +27,10 @@ class Home extends Component {
         sidebarMenuText:'☰',
         markerToDisplay:{},
         dropdownText:'',
+        gMapDisplayClasses: {
+            altClass: 'hidden',
+            gMapClass: ''
+        }
     }
 
     getGoogleMaps() {
@@ -50,10 +54,13 @@ class Home extends Component {
                 script.async = true;
                 document.body.appendChild(script);
             });
+            
         }
         
         // Return a promise for the Google Maps API
         return this.googleMapsPromise;
+        
+
     }
 
     componentWillMount() {
@@ -70,6 +77,8 @@ class Home extends Component {
         
         this.addEventListenersForThePage();
         this.updateDropdownMenu();
+        
+        this.checkifGoogleMapsReached();
     }
 
     addEventListenersForThePage = () => {
@@ -95,6 +104,12 @@ class Home extends Component {
         this.generateMarkers(this.state.beachesList, this.populateInfoWindow);
         this.showBeaches(map);
         this.setState({gMap:map});
+        
+        // execute following ONLY if reached GooGleMaps (does not matter if authentification worked or failed)
+        // display the google map only if google map was reached
+        //place the function here if want to execute a function only if initMap as executed while, i.e if Google Maps was reach (but not necesarily authetificated)
+        this.checkifGoogleMapsReached();
+        
     }
 
     generateMarkers = (locationsArray, populateInfoWindow, largeInfoWindow) => {
@@ -293,6 +308,36 @@ class Home extends Component {
         
     }
     
+        // tests if init map has produced a map, even a not connected one. If not, degrade gracefully + console log the error   
+    checkifGoogleMapsReached = () => {
+        window.setTimeout( () => {
+            
+            // if keys length > 0, it means google maps was reached, so hide error message and display map
+            Object.keys(this.state.gMap).length > 0 ? this.planGoogleMapsReached() : null;
+            // if keys length === 0, it means google maps was not (yet ?) reached, so display error message, and console log problem
+            Object.keys(this.state.gMap).length === 0 ? this.planGoogleMapsNotReached() : null;
+        }, 1000);
+
+    }
+    
+    planGoogleMapsReached = () => {
+        Object.keys(this.state.gMap).length > 0 && this.state.gMapDisplayClasses.altClass === 'flex' && this.state.gMapDisplayClasses.gMapClass === 'hidden'? this.setState({gMapDisplayClasses :  { altClass: 'hidden', gMapClass: ''}}) : null;
+    }
+    
+    planGoogleMapsNotReached = () => {
+        this.setState({gMapDisplayClasses :  { altClass: 'flex', gMapClass: 'hidden'}});
+        console.log('Google Maps API could not be reached, it seems to be a network problem')
+    }
+    
+    gm_authFailure = () => {
+
+        // not working, should try to find other ways to identify and select dom element with reactjs
+        document.getElementById('gmap-fail-alternative').setAttribute('class', 'flex');
+        document.getElementById('map').setAttribute('class', 'hidden');
+        console.log('The app could not connect to google');
+
+    };
+    
 
     render() {
         return (
@@ -306,11 +351,11 @@ class Home extends Component {
                 </nav>
                 <div id="container-map-sidebar">
                     
-                    <div id="gmap-fail-alternative" className="hidden">
-                        <p>Sorry for the unconvenience. <br/>We could not import the map from Google Maps API, for some unfortunate reasons. If the problem persists, please reach us and we'll ensure to fix it up as soon as possible.</p>
+                    <div id="gmap-fail-alternative" className={this.state.gMapDisplayClasses.altClass}>
+                        <p>Sorry for the unconvenience. <br/>We could not import the map from Google Maps API, for some unfortunate reasons. You can try to refresh the page. If the problem persists, please reach us and we'll ensure to fix it up as soon as possible.</p>
                     </div>
                    
-                    <div id="map">
+                    <div id="map" className={this.state.gMapDisplayClasses.gMapClass}>
                     </div>
 
                     <aside  className={this.state.sidebarDisplayClass}>
