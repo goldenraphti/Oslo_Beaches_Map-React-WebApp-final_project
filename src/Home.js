@@ -4,7 +4,6 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import './App.css'
 import BeachesList from './BeachesList'
-import ReactDOM from 'react-dom'
 import GmapStyle from './GmapStyle'
 
 //const gm_authFailure = err => console.log('yaaay');
@@ -82,8 +81,6 @@ class Home extends Component {
     }
 
     addEventListenersForThePage = () => {
-
-        const aside = document.getElementsByTagName('aside');
         
         // TODO: should I use 'click' or 'mousedown' ?
         document.getElementById("sidebar-hamburger").addEventListener('click', () => {
@@ -170,7 +167,7 @@ class Home extends Component {
         
         
         // Check to make sure the infowindow is not already opened on this marker.
-        if (infowindow.marker != marker) {
+        if (infowindow.marker !== marker) {
             infowindow.marker = marker;
             
             // starts fetching and filling content for inside infow window
