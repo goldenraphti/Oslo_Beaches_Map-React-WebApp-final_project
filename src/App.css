@@ -202,6 +202,7 @@ aside li > button {
     background: none;
     border: none;
     min-height: 30px;
+    font-size: 1em;
 }
     
 aside li > button:visited {
