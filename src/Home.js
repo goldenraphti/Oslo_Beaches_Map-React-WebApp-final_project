@@ -273,8 +273,8 @@ class Home extends Component {
             const marker = this.state.markerToDisplay;
             // retrieves infos from the fetchContentFromFoursquare to insert it inside the window, such as photo + name author + from forsquare and link
             const title = '<h4>' + marker.title + '</h4>';
-            const text = `<p class="failure-info-text">For some technical issues, the content could not be loaded from ${link}, sorry for the unconvenience</p>`;
             const link = '<a href="foursquare.com>from Foursquare</a>';
+            const text = `<p class="failure-info-text">For some technical issues, the content could not be loaded from ${link}, sorry for the unconvenience</p>`;
         
             const infowindow = this.state.largeInfoWindow;
             
@@ -343,7 +343,7 @@ class Home extends Component {
                 <nav>
                     <h1>Oslo Best Summer Beaches</h1>
                     
-                <button id="sidebar-hamburger" aria-label="Opens up or hide sidebar to filter beaches" role="button" tabIndex="0" className="link menu">{this.state.sidebarMenuText}</button>
+                <button id="sidebar-hamburger" aria-label="Opens up or hide sidebar to filter beaches" tabIndex="0" className="link menu">{this.state.sidebarMenuText}</button>
                     
                 </nav>
                 <div id="container-map-sidebar">

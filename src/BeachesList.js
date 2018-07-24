@@ -19,10 +19,10 @@ const BeachesList = (props) => {
                 </select>
                 <ul>
                     {beachesList.map( (beach) => (
-                        <li key={beach.id}  onClick={e => filterBeaches(beach.id)}  onKeyDown={e => e.keyCode === 13 ? props.acessibilityLaunchPopulateInfoWindow({beach}) :  null}><a href="#">{beach.title}</a>                                                                                                                                                                                                            </li>
+                        <li key={beach.id}  onClick={e => filterBeaches(beach.id)}  onKeyDown={e => e.keyCode === 13 ? props.acessibilityLaunchPopulateInfoWindow({beach}) :  null}><button type="button" href="#">{beach.title}</button>                                                                                                                                                                                                            </li>
                     ))}
                 </ul>
-            <div id="clear-filters" className="link" role="button" onClick={e => props.showBeaches(props.gMap)} ><a href="#">Show them all</a></div>
+            <div id="clear-filters" className="link" role="button" onClick={e => props.showBeaches(props.gMap)} ><button type="button">Show them all</button></div>
         </form>
 
     )

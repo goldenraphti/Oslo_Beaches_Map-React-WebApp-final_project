@@ -194,9 +194,19 @@ li {
     margin: 10px 0;
 }
 
-aside li > a {
+aside li > button {
     color: var(--dark-grey);
-    text-decoration: none;
+    text-decoration:none;
+    padding: 0;
+    margin: 0;
+    background: none;
+    border: none;
+    min-height: 30px;
+}
+    
+aside li > button:visited {
+    color: var(--dark-grey);
+    text-decoration:none;
 }
 
 #clear-filters {
@@ -207,11 +217,11 @@ aside li > a {
     color: red;
 }
 
-aside a {
+aside button {
     color: var(--palette-1-3);
 }
 
-aside a:hover {
+aside button:hover {
     color: var(--palette-1-4);
 }
 
