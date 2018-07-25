@@ -196,7 +196,7 @@ li {
 
 aside li > button {
     color: var(--dark-grey);
-    text-decoration:none;
+    text-decoration: none;
     padding: 0;
     margin: 0;
     background: none;

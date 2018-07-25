@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import ReactDOM from 'react-dom'
 import './App.css'
 import BeachesList from './BeachesList'
 import GmapStyle from './GmapStyle'
@@ -167,7 +168,7 @@ class Home extends Component {
         
         
         // Check to make sure the infowindow is not already opened on this marker.
-        if (infowindow.marker !== marker) {
+        if (infowindow.marker != marker) {
             infowindow.marker = marker;
             
             // starts fetching and filling content for inside infow window
@@ -273,8 +274,8 @@ class Home extends Component {
             const marker = this.state.markerToDisplay;
             // retrieves infos from the fetchContentFromFoursquare to insert it inside the window, such as photo + name author + from forsquare and link
             const title = '<h4>' + marker.title + '</h4>';
-            const link = '<a href="foursquare.com>from Foursquare</a>';
-            const text = `<p class="failure-info-text">For some technical issues, the content could not be loaded from ${link}, sorry for the unconvenience</p>`;
+//            const link = '<a href="foursquare.com">from Foursquare</a>';
+            const text = '<p class="failure-info-text">For some technical issues, the content could not be loaded from <a href="foursquare.com">Foursquare</a>, sorry for the unconvenience</p>';
         
             const infowindow = this.state.largeInfoWindow;
             
@@ -292,6 +293,7 @@ class Home extends Component {
             // keep the == and not === since depending of if click on select or in list it will return the id in string or number, so must be a flexible equality, no strict equaity
             marker.id == selectedBeach ? marker.setMap(this.state.gMap) : marker.setMap(null);
             marker.id == selectedBeach ? marker.animation = google.maps.Animation.BOUNCE : null;
+            marker.id == selectedBeach ? this.populateInfoWindow(marker) : null;
         })
         
         this.updateDropdownMenu();
